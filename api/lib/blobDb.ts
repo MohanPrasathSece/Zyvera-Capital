@@ -75,6 +75,7 @@ export async function saveUsers(users: User[]): Promise<void> {
     await put("users.json", JSON.stringify(users, null, 2), {
       access: "private",
       addRandomSuffix: false,
+      allowOverwrite: true,
     });
   } catch (e) {
     console.error("Failed to put users to Vercel Blob", e);
