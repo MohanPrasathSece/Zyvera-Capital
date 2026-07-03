@@ -44,7 +44,9 @@ export async function getUsers(): Promise<User[]> {
       return localUsersCache;
     }
 
-    const cacheBustedUrl = `${blobUrl}?t=${Date.now()}`;
+    const cacheBustedUrl = blobUrl.includes("?")
+      ? `${blobUrl}&t=${Date.now()}`
+      : `${blobUrl}?t=${Date.now()}`;
     const token = process.env.BLOB_READ_WRITE_TOKEN;
     const response = await fetch(cacheBustedUrl, {
       headers: token && token !== "undefined" && token !== "null"
