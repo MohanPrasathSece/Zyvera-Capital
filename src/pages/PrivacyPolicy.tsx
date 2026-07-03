@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
         <div className="mx-auto mt-4 flex max-w-7xl items-center justify-between rounded-full glass px-6 py-3">
           <Link to="/" className="flex items-center gap-2">
             <Logo className="h-8 w-8" />
-            <span className="text-lg font-bold tracking-tight text-white">Aether</span>
+            <span className="text-lg font-bold tracking-tight text-white">Zyvora Finance</span>
           </Link>
           <Link
             to="/"
@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-left">
         <div className="mb-6">
-          <h1 className="font-display text-3xl md:text-5xl font-black text-white leading-tight">
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-white leading-tight">
             Privacy <span className="text-gradient">Policy</span>
           </h1>
           <p className="text-xs text-white/50 mt-2">Last Updated Date: July 1, 2026</p>
@@ -42,7 +42,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-lg font-bold text-white mb-2">1. Introduction</h2>
             <p>
-              Welcome to Aether. We value your privacy and are committed to safeguarding the
+              Welcome to Zyvora Finance. We value your privacy and are committed to safeguarding the
               personal data you entrust to us. This Privacy Policy details the types of information
               we gather, how we process it, and your rights concerning your personal data.
             </p>
@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
             <h2 className="text-lg font-bold text-white mb-2">2. Definitions</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>
-                <strong>Service:</strong> Refers to the Aether website and associated educational
+                <strong>Service:</strong> Refers to the Zyvora Finance website and associated educational
                 tools.
               </li>
               <li>
@@ -232,7 +232,7 @@ export default function PrivacyPolicy() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6">
           <div className="flex items-center gap-2">
             <Logo className="h-6 w-6" glow={false} />
-            <span className="font-bold text-white">Aether</span>
+            <span className="font-bold text-white">Zyvora Finance</span>
             <span className="text-xs text-white/40 ml-2">
               &copy; 2026 &middot; The Future of Digital Wealth
             </span>

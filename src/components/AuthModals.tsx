@@ -208,11 +208,11 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
 
         {view === "login" ? (
           <div>
-            <h3 className="font-display text-2xl font-black text-white mb-2">
+            <h3 className="font-display text-2xl font-bold text-white mb-2">
               Sign In
             </h3>
-            <p className="text-sm text-white/60 mb-6">
-              Enter your email address to access your Aether space.
+            <p className="text-base text-white/60 mb-6">
+              Enter your email address to access your Zyvora Finance space.
             </p>
 
             <form onSubmit={handleLoginSubmit} className="space-y-4">
@@ -231,21 +231,21 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                     }));
                   }}
                   placeholder="you@domain.com"
-                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.email ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white`}
+                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.email ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white text-base`}
                 />
                 {validationErrors.email && (
-                  <p className="text-xs text-destructive mt-1">{validationErrors.email}</p>
+                  <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>
                 )}
               </div>
 
               {error && (
-                <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive leading-relaxed">
+                <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive leading-relaxed">
                   {error}
                 </div>
               )}
 
               {success && (
-                <div className="rounded-xl border border-accent/20 bg-accent/10 p-3 text-xs text-[#14F195] leading-relaxed">
+                <div className="rounded-xl border border-accent/20 bg-accent/10 p-3 text-sm text-[#14F195] leading-relaxed">
                   {success}
                 </div>
               )}
@@ -258,7 +258,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 {loading ? "Loading..." : "Continue"}
               </button>
 
-              <div className="text-center mt-4 text-xs text-white/40">
+              <div className="text-center mt-4 text-sm text-white/40">
                 Don't have an account?{" "}
                 <button
                   type="button"
@@ -276,10 +276,10 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
           </div>
         ) : (
           <div>
-            <h3 className="font-display text-2xl font-black text-white mb-2">
+            <h3 className="font-display text-2xl font-bold text-white mb-2">
               Create Account
             </h3>
-            <p className="text-sm text-white/60 mb-6">
+            <p className="text-base text-white/60 mb-6">
               Create your institutional account and access the platform.
             </p>
 
@@ -299,10 +299,10 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                     }));
                   }}
                   placeholder="John Doe"
-                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.name ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white`}
+                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.name ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white text-base`}
                 />
                 {validationErrors.name && (
-                  <p className="text-xs text-destructive mt-1">{validationErrors.name}</p>
+                  <p className="text-sm text-destructive mt-1">{validationErrors.name}</p>
                 )}
               </div>
 
@@ -321,10 +321,10 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                     }));
                   }}
                   placeholder="you@domain.com"
-                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.email ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white`}
+                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.email ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white text-base`}
                 />
                 {validationErrors.email && (
-                  <p className="text-xs text-destructive mt-1">{validationErrors.email}</p>
+                  <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>
                 )}
               </div>
 
@@ -343,21 +343,21 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                     }));
                   }}
                   placeholder="079 123 45 67"
-                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.phone ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white`}
+                  className={`w-full rounded-xl bg-white/5 border ${validationErrors.phone ? "border-destructive" : "border-white/10"} px-4 py-3 outline-none focus:border-[#00C6FF] transition text-white text-base`}
                 />
                 {validationErrors.phone && (
-                  <p className="text-xs text-destructive mt-1">{validationErrors.phone}</p>
+                  <p className="text-sm text-destructive mt-1">{validationErrors.phone}</p>
                 )}
               </div>
 
               {error && (
-                <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive leading-relaxed">
+                <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive leading-relaxed">
                   {error}
                 </div>
               )}
 
               {success && (
-                <div className="rounded-xl border border-accent/20 bg-accent/10 p-3 text-xs text-[#14F195] leading-relaxed">
+                <div className="rounded-xl border border-accent/20 bg-accent/10 p-3 text-sm text-[#14F195] leading-relaxed">
                   {success}
                 </div>
               )}
@@ -370,7 +370,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 {loading ? "Loading..." : "Sign Up"}
               </button>
 
-              <div className="text-center mt-4 text-xs text-white/40">
+              <div className="text-center mt-4 text-sm text-white/40">
                 Already have an account?{" "}
                 <button
                   type="button"

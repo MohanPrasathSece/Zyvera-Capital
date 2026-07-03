@@ -87,7 +87,6 @@ function Nav({ onLaunchApp, isLoggedIn }: NavProps) {
       <div className="mx-auto mt-4 flex max-w-7xl items-center justify-between rounded-full glass px-6 py-3">
         <Link to="/" className="flex items-center gap-2">
           <Logo className="h-8 w-8" />
-          <span className="text-lg font-bold tracking-tight text-white">Aether</span>
         </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
           <a href="#services" className="hover:text-white transition">
@@ -198,9 +197,9 @@ function Hero({ onLaunchApp, onLaunchPortfolio, isLoggedIn }: HeroProps) {
         
         <h1
           ref={headingRef}
-          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight text-white max-w-4xl"
+          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] text-white max-w-4xl"
         >
-          <div className="overflow-hidden py-5 -my-5 px-3">{renderLetters("Aura Finance")}</div>
+          <div className="overflow-hidden py-5 -my-5 px-3">{renderLetters("Zyvora Finance")}</div>
           <div className="overflow-hidden py-5 -my-5 px-3">
             <span ref={gradientTextRef} className="text-gradient inline-block will-change-transform py-4 -my-4">Multiply your yield</span>
           </div>
@@ -305,7 +304,7 @@ function DashboardShowcase() {
           <span className="h-1.5 w-1.5 rounded-full bg-[#14F195] animate-pulse" />
           01 &middot; Command Center
         </div>
-        <h2 className="font-display text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-white mb-6">
+        <h2 className="font-display text-3xl md:text-5xl font-bold leading-[1.1] text-white mb-6">
           One system for all <br />
           <span className="text-gradient">digital wealth</span>
         </h2>
@@ -465,7 +464,7 @@ function Services() {
           <div className="mb-4 inline-flex rounded-full glass px-3 py-1 text-xs text-white/70">
             02 · What we build
           </div>
-          <h2 className="font-display text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-white">
+          <h2 className="font-display text-3xl md:text-5xl font-bold leading-[1.1] text-white">
             Powering the next generation
             <br />
             <span className="text-gradient">of investors</span>
@@ -623,7 +622,7 @@ function Experience() {
           <div className="mb-4 inline-flex rounded-full glass px-3 py-1 text-xs text-white/70">
             04 · Experience
           </div>
-          <h2 className="font-display text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-white">
+          <h2 className="font-display text-3xl md:text-5xl font-bold leading-[1.1] text-white">
             Experience the future
             <br />
             <span className="text-gradient">before everyone else</span>
@@ -776,13 +775,13 @@ function ContactHome() {
           <div className="mb-4 inline-flex rounded-full glass px-3 py-1 text-xs text-white/70">
             05 · Access
           </div>
-          <h2 className="font-display text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-white">
+          <h2 className="font-display text-3xl md:text-5xl font-bold leading-[1.1] text-white">
             Ready to build
             <br />
             your <span className="text-gradient">crypto empire?</span>
           </h2>
           <p className="mt-6 max-w-md text-white/60">
-            Aura Finance offers custom staking vaults, automated trading grid setups, and tailored yield locks built to multiply your crypto income. Request access to start growing your wealth today.
+            Zyvora Finance offers custom staking vaults, automated trading grid setups, and tailored yield locks built to multiply your crypto income. Request access to start growing your wealth today.
           </p>
         </div>
         <form
@@ -887,7 +886,7 @@ function Footer() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6">
         <div className="flex items-center gap-2">
           <Logo className="h-6 w-6" glow={false} />
-          <span className="font-bold text-white">Aether</span>
+          <span className="font-bold text-white">Zyvora Finance</span>
           <span className="text-xs text-white/40 ml-2">&copy; 2026 &middot; The Future of Digital Wealth</span>
         </div>
         <div className="flex items-center gap-6 text-sm text-white/60">
