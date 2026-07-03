@@ -43,8 +43,9 @@ export async function getUsers(): Promise<User[]> {
       return localUsersCache;
     }
 
+    const cacheBustedUrl = `${blobUrl}?t=${Date.now()}`;
     const token = process.env.BLOB_READ_WRITE_TOKEN;
-    const response = await fetch(blobUrl, {
+    const response = await fetch(cacheBustedUrl, {
       headers: token && token !== "undefined" && token !== "null"
         ? { Authorization: `Bearer ${token}` }
         : {},
@@ -79,6 +80,7 @@ export async function saveUsers(users: User[]): Promise<void> {
       access: "private",
       addRandomSuffix: false,
       allowOverwrite: true,
+      cacheControl: "no-store, no-cache, must-revalidate, max-age=0",
       token,
     });
   } catch (e) {
