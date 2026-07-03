@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import gsap from "gsap";
-import { COUNTRIES, formatFullPhoneNumber, getCountry } from "../utils/phoneValidation";
+import { validatePhoneNumber, formatFullPhoneNumber, getCountry } from "../utils/phoneValidation";
 import { CountrySelect } from "./CountrySelect";
 
 interface AuthModalsProps {
@@ -95,11 +95,8 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     return undefined;
   };
 
-  const validatePhone = (val: string) => {
-    if (!val || !val.trim()) return "Phone number is required";
-    const digits = val.replace(/\D/g, "");
-    if (digits.length < 5) return "Please enter a valid phone number";
-    return undefined;
+  const validatePhone = (val: string, countryCode?: string) => {
+    return validatePhoneNumber(val, countryCode ?? selectedCountry);
   };
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -123,7 +120,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     setError(null);
     const nameErr = validateName(name);
     const emailErr = validateEmail(email);
-    const phoneErr = validatePhone(phone);
+    const phoneErr = validatePhone(phone, selectedCountry);
     if (nameErr || emailErr || phoneErr) {
       setValidationErrors({ name: nameErr, email: emailErr, phone: phoneErr });
       return;
@@ -284,7 +281,11 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                         value={selectedCountry}
                         onChange={(c) => {
                           setSelectedCountry(c);
-                          setValidationErrors((p) => ({ ...p, phone: phone ? validatePhone(phone) : undefined }));
+                          // Re-validate current phone against the new country
+                          setValidationErrors((p) => ({
+                            ...p,
+                            phone: phone ? validatePhoneNumber(phone, c) : undefined,
+                          }));
                         }}
                       />
                     </div>
@@ -296,7 +297,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                         value={phone}
                         onChange={(e) => {
                           setPhone(e.target.value);
-                          setValidationErrors((p) => ({ ...p, phone: validatePhone(e.target.value) }));
+                          setValidationErrors((p) => ({ ...p, phone: validatePhone(e.target.value, selectedCountry) }));
                         }}
                         placeholder={getCountry(selectedCountry).placeholder}
                         className={inputClass(validationErrors.phone)}
