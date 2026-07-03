@@ -43,7 +43,11 @@ export async function getUsers(): Promise<User[]> {
   }
 
   try {
-    const response = await fetch(blobUrl);
+    const response = await fetch(blobUrl, {
+      headers: process.env.BLOB_READ_WRITE_TOKEN
+        ? { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
+        : {},
+    });
     if (!response.ok) {
       return [];
     }
@@ -69,7 +73,7 @@ export async function saveUsers(users: User[]): Promise<void> {
 
   try {
     await put("users.json", JSON.stringify(users, null, 2), {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
     });
   } catch (e) {
