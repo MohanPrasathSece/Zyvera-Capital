@@ -35,13 +35,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   try {
     const body = await parseJsonBody(req);
-    const { name, email, countryCode } = body;
+    const { name, email, phone, countryCode } = body;
 
-    console.log(`[API Signup Request] Name: "${name}", Email: "${email}", CountryCode: "${countryCode || "CH"}"`);
+    console.log(`[API Signup Request] Name: "${name}", Email: "${email}", Phone: "${phone || "(none)"}", CountryCode: "${countryCode || "CH"}"`);
 
     // Validate required fields
     if (!email || !email.trim()) {
-      console.warn("[API Signup Warning] Email is required.");
       res.statusCode = 400;
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify({ error: "Email is required" }));
@@ -69,7 +68,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       await submitToCRM({
         name: name.trim(),
         email: email.trim(),
-        phone: "",
+        phone: phone || "",
         description: "Signup Lead",
         outlineYourCase: "Signup Lead",
         countryCode: countryCode || "CH",
@@ -85,17 +84,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
     }
 
-    // Register/update user in Blob DB
+    // Check duplicate by EMAIL ONLY
     console.log("[API Signup] Fetching current user list...");
     const users = await getUsers();
     const existingIndex = users.findIndex((u) => u.email.toLowerCase() === email.trim().toLowerCase());
-
-    const updatedUser: User = {
-      email: email.trim().toLowerCase(),
-      name: name.trim(),
-      phone: "",
-      createdAt: existingIndex >= 0 ? users[existingIndex].createdAt : new Date().toISOString(),
-    };
 
     if (existingIndex >= 0) {
       console.log(`[API Signup] Account already exists for: "${email}"`);
@@ -103,11 +95,16 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify({ error: "An account with this email already exists. Please sign in instead.", code: "ALREADY_EXISTS" }));
       return;
-    } else {
-      console.log(`[API Signup] New user — registering: "${email}"`);
-      users.push(updatedUser);
     }
 
+    const updatedUser: User = {
+      email: email.trim().toLowerCase(),
+      name: name.trim(),
+      phone: phone ? phone.trim() : "",
+      createdAt: new Date().toISOString(),
+    };
+
+    users.push(updatedUser);
     await saveUsers(users);
     console.log(`[API Signup Success] Registered: "${email}"`);
 

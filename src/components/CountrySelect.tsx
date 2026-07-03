@@ -48,8 +48,8 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
           setIsOpen(!isOpen);
           setSearch("");
         }}
-        className="flex items-center justify-between gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-[#00C6FF] text-white text-base w-full h-full cursor-pointer hover:bg-white/10 transition duration-200"
-        style={{ minWidth: "120px" }}
+        className="flex items-center justify-between gap-1.5 rounded-xl bg-white/5 border border-white/10 px-2.5 py-2.5 sm:px-4 sm:py-3 outline-none focus:border-[#00C6FF] text-white text-sm w-full h-full cursor-pointer hover:bg-white/10 transition duration-200 whitespace-nowrap"
+        style={{ minWidth: "88px" }}
       >
         <span className="flex items-center gap-2">
           <span className="text-xl leading-none">{selectedCountry.flag}</span>
@@ -61,7 +61,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className="glass-strong noise absolute top-full left-0 z-50 mt-2 max-h-72 w-64 overflow-hidden rounded-2xl border border-white/10 bg-[#0c0d14] p-1.5 shadow-[0_20px_50px_rgba(0,198,255,0.25)] backdrop-blur-xl animate-fade-in flex flex-col">
+        <div className="glass-strong noise absolute top-full left-0 z-50 mt-2 max-h-72 w-[min(280px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-white/10 bg-[#0c0d14] p-1.5 shadow-[0_20px_50px_rgba(0,198,255,0.25)] backdrop-blur-xl animate-fade-in flex flex-col">
           {/* Search Input */}
           <div className="relative mb-1.5 p-1 flex items-center border-b border-white/5">
             <Search className="absolute left-3 h-3.5 w-3.5 text-white/40" />
