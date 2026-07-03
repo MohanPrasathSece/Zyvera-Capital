@@ -73,10 +73,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ success: true, user }));
   } catch (error: unknown) {
-    const err = error as Error;
-    console.error("[API Login Error] Critical failure during login:", err);
+    console.error("[API Login Error] Critical failure during login:", error);
     res.statusCode = 500;
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ error: "Internal server error", details: err.message, stack: err.stack }));
+    res.end(JSON.stringify({ error: "Internal server error" }));
   }
 }
