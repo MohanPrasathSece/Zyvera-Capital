@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["api/**/*.ts", "api-lib/**/*.ts"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": ".vercel/output/functions",
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "verbatimModuleSyntax": false,
+    "types": ["node"]
+  }
+}

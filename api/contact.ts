@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { submitToCRM } from "../api-lib/crm.js";
+import { submitToCRM } from "../api-lib/crm";
 
 // Simple middleware to parse JSON body
 async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Record<string, any>> {

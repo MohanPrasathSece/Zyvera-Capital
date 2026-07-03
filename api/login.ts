@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { getUsers } from "../api-lib/blobDb.js";
+import { getUsers } from "../api-lib/blobDb";
 
 async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Record<string, any>> {
   try {

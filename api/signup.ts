@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { submitToCRM } from "../api-lib/crm.js";
-import { getUsers, saveUsers, User } from "../api-lib/blobDb.js";
+import { submitToCRM } from "../api-lib/crm";
+import { getUsers, saveUsers, User } from "../api-lib/blobDb";
 
 async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Record<string, any>> {
   try {
