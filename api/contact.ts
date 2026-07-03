@@ -2,7 +2,10 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { submitToCRM } from "./lib/crm";
 
 // Simple middleware to parse JSON body
-async function parseJsonBody(req: IncomingMessage): Promise<Record<string, string>> {
+async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Record<string, any>> {
+  if (req.body) {
+    return typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  }
   return new Promise((resolve, reject) => {
     let body = "";
     req.on("data", (chunk) => {
