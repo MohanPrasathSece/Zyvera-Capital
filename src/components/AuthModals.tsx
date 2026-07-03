@@ -20,19 +20,16 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
   const [view, setView] = useState<"login" | "signup">(initialView);
   const { login, signup } = useAuth();
 
-  // Form states
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("CH");
 
-  // UI states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [alreadyExists, setAlreadyExists] = useState(false);
 
-  // Validation states
   const [validationErrors, setValidationErrors] = useState<{
     name?: string;
     email?: string;
@@ -54,16 +51,15 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     setValidationErrors({});
   }, [initialView, isOpen]);
 
-  // Modal animation
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
       if (overlayRef.current && modalRef.current) {
         gsap.killTweensOf([overlayRef.current, modalRef.current]);
         gsap.set(overlayRef.current, { opacity: 0 });
-        gsap.set(modalRef.current, { scale: 0.93, opacity: 0, y: 24 });
-        gsap.to(overlayRef.current, { opacity: 1, duration: 0.3, ease: "power2.out" });
-        gsap.to(modalRef.current, { scale: 1, opacity: 1, y: 0, duration: 0.4, delay: 0.04, ease: "back.out(1.5)" });
+        gsap.set(modalRef.current, { scale: 0.92, opacity: 0, y: 20 });
+        gsap.to(overlayRef.current, { opacity: 1, duration: 0.28, ease: "power2.out" });
+        gsap.to(modalRef.current, { scale: 1, opacity: 1, y: 0, duration: 0.38, delay: 0.04, ease: "back.out(1.4)" });
       }
     } else {
       document.body.style.overflow = "unset";
@@ -73,7 +69,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
 
   const handleClose = () => {
     if (overlayRef.current && modalRef.current) {
-      gsap.to(modalRef.current, { scale: 0.95, opacity: 0, y: 15, duration: 0.22, ease: "power2.in" });
+      gsap.to(modalRef.current, { scale: 0.94, opacity: 0, y: 10, duration: 0.2, ease: "power2.in" });
       gsap.to(overlayRef.current, { opacity: 0, duration: 0.22, delay: 0.04, ease: "power2.in", onComplete: onClose });
     } else {
       onClose();
@@ -82,23 +78,23 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
 
   if (!isOpen) return null;
 
-  // Validators
+  // ── Validators ──────────────────────────────────────────────────────────────
   const validateEmail = (val: string) => {
-    if (!val || !val.trim()) return "Email address is required";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())) return "Please enter a valid email address";
+    if (!val?.trim()) return "Email is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())) return "Invalid email address";
     return undefined;
   };
 
   const validateName = (val: string) => {
-    if (!val || !val.trim()) return "Full name is required";
-    if (val.trim().length < 2) return "Name must be at least 2 characters";
+    if (!val?.trim()) return "Full name is required";
+    if (val.trim().length < 2) return "At least 2 characters";
     return undefined;
   };
 
-  const validatePhone = (val: string, countryCode?: string) => {
-    return validatePhoneNumber(val, countryCode ?? selectedCountry);
-  };
+  const validatePhone = (val: string, country?: string) =>
+    validatePhoneNumber(val, country ?? selectedCountry);
 
+  // ── Submit handlers ──────────────────────────────────────────────────────────
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -108,8 +104,8 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     const res = await login(email);
     setLoading(false);
     if (res.success) {
-      setSuccess("Welcome back! Redirecting...");
-      setTimeout(() => { handleClose(); if (onSuccess) onSuccess(); }, 900);
+      setSuccess("Welcome back!");
+      setTimeout(() => { handleClose(); if (onSuccess) onSuccess(); }, 800);
     } else {
       setError(res.error || "Login failed. Please try again.");
     }
@@ -132,7 +128,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     setLoading(false);
     if (res.success) {
       setSuccess("Account created! Welcome to Zyvora.");
-      setTimeout(() => { handleClose(); if (onSuccess) onSuccess(); }, 1200);
+      setTimeout(() => { handleClose(); if (onSuccess) onSuccess(); }, 1100);
     } else if (res.code === "ALREADY_EXISTS") {
       setAlreadyExists(true);
     } else {
@@ -140,50 +136,60 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
     }
   };
 
-  const inputClass = (err?: string) =>
-    `w-full rounded-xl bg-white/5 border ${err ? "border-red-400/60" : "border-white/10"} px-3 py-2.5 sm:px-4 sm:py-3 outline-none focus:border-[#00C6FF] transition text-white text-sm sm:text-base placeholder:text-white/30`;
+  // ── Style helpers ────────────────────────────────────────────────────────────
+  const input = (err?: string) =>
+    `w-full rounded-lg bg-white/5 border ${
+      err ? "border-red-400/60" : "border-white/10"
+    } px-3 py-2 text-sm text-white outline-none focus:border-[#00C6FF] transition placeholder:text-white/25`;
 
-  const labelClass = "mb-1 block text-[10px] sm:text-xs uppercase tracking-widest text-white/50 font-medium";
+  const label = "mb-0.5 block text-[10px] uppercase tracking-widest text-white/40 font-medium";
+
+  const errText = (msg?: string) =>
+    msg ? <p className="text-[10px] text-red-400 mt-0.5 leading-tight">{msg}</p> : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-      {/* Overlay */}
+    /* ── Backdrop ── */
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
       <div
         ref={overlayRef}
-        className="absolute inset-0 bg-[#03040A]/85 backdrop-blur-md"
+        className="absolute inset-0 bg-[#03040A]/88 backdrop-blur-lg"
         onClick={handleClose}
       />
 
-      {/* Modal — slides up from bottom on mobile, centered on desktop */}
+      {/* ── Modal card — centered on every screen size ── */}
       <div
         ref={modalRef}
-        className="glass-strong noise relative w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-white/10 shadow-[0_0_80px_rgba(0,198,255,0.2)] overflow-hidden"
+        className="
+          glass-strong noise relative z-10
+          w-full max-w-[340px] sm:max-w-[420px]
+          rounded-2xl sm:rounded-3xl
+          border border-white/10
+          shadow-[0_0_60px_rgba(0,198,255,0.18)]
+          overflow-hidden
+        "
         style={{ transformStyle: "preserve-3d", perspective: 1000 }}
       >
-        {/* Drag handle (mobile only) */}
-        <div className="flex justify-center pt-3 pb-1 sm:hidden">
-          <div className="h-1 w-10 rounded-full bg-white/20" />
-        </div>
+        {/* Close btn */}
+        <button
+          onClick={handleClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-20 h-7 w-7 flex items-center justify-center rounded-full bg-white/6 hover:bg-white/12 text-white/40 hover:text-white transition text-xs font-bold"
+        >
+          ✕
+        </button>
 
-        {/* Scrollable content area */}
-        <div className="max-h-[90vh] overflow-y-auto px-5 pb-8 pt-4 sm:px-8 sm:pb-8 sm:pt-6">
-          {/* Close button */}
-          <button
-            onClick={handleClose}
-            className="absolute right-4 top-4 sm:right-6 sm:top-5 z-10 h-8 w-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition text-base font-bold"
-          >
-            ✕
-          </button>
+        {/* Scrollable body */}
+        <div className="max-h-[88vh] overflow-y-auto px-5 py-6 sm:px-7 sm:py-8">
 
           {view === "login" ? (
-            /* ── LOGIN VIEW ── */
+            /* ════════════════ LOGIN ════════════════ */
             <div>
-              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-1">Sign In</h3>
-              <p className="text-sm text-white/50 mb-5">Enter your email to access your Zyvora account.</p>
+              <h3 className="font-display text-lg sm:text-2xl font-bold text-white mb-0.5">Sign In</h3>
+              <p className="text-xs sm:text-sm text-white/45 mb-4">Enter your email to access your account.</p>
 
-              <form onSubmit={handleLoginSubmit} className="space-y-3 sm:space-y-4">
+              <form onSubmit={handleLoginSubmit} className="space-y-2.5 sm:space-y-3">
                 <div>
-                  <label className={labelClass}>Email address</label>
+                  <label className={label}>Email address</label>
                   <input
                     type="email"
                     autoComplete="email"
@@ -193,18 +199,18 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                       setValidationErrors((p) => ({ ...p, email: validateEmail(e.target.value) }));
                     }}
                     placeholder="you@domain.com"
-                    className={inputClass(validationErrors.email)}
+                    className={input(validationErrors.email)}
                   />
-                  {validationErrors.email && <p className="text-xs text-red-400 mt-1">{validationErrors.email}</p>}
+                  {errText(validationErrors.email)}
                 </div>
 
                 {error && (
-                  <div className="rounded-xl border border-red-400/20 bg-red-400/10 px-3 py-2.5 text-xs sm:text-sm text-red-300 leading-relaxed">
+                  <div className="rounded-lg border border-red-400/20 bg-red-400/8 px-3 py-2 text-xs text-red-300 leading-relaxed">
                     {error}
                   </div>
                 )}
                 {success && (
-                  <div className="rounded-xl border border-[#14F195]/20 bg-[#14F195]/10 px-3 py-2.5 text-xs sm:text-sm text-[#14F195] leading-relaxed">
+                  <div className="rounded-lg border border-[#14F195]/20 bg-[#14F195]/8 px-3 py-2 text-xs text-[#14F195] leading-relaxed">
                     {success}
                   </div>
                 )}
@@ -212,13 +218,13 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="shine-btn w-full rounded-full bg-gradient-brand px-6 py-3 sm:py-3.5 text-sm font-semibold text-[#03040A] shadow-[0_0_20px_rgba(0,198,255,0.3)] disabled:opacity-50 transition"
+                  className="shine-btn w-full rounded-full bg-gradient-brand px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold text-[#03040A] shadow-[0_0_16px_rgba(0,198,255,0.28)] disabled:opacity-50 transition mt-1"
                 >
-                  {loading ? "Signing in..." : "Continue →"}
+                  {loading ? "Signing in…" : "Continue →"}
                 </button>
 
-                <p className="text-center text-xs sm:text-sm text-white/40">
-                  Don't have an account?{" "}
+                <p className="text-center text-[11px] sm:text-xs text-white/35 pt-0.5">
+                  No account?{" "}
                   <button
                     type="button"
                     onClick={() => { setView("signup"); setError(null); setValidationErrors({}); }}
@@ -229,16 +235,18 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 </p>
               </form>
             </div>
-          ) : (
-            /* ── SIGNUP VIEW ── */
-            <div>
-              <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-1">Create Account</h3>
-              <p className="text-sm text-white/50 mb-5">Join Zyvora Finance and start your journey.</p>
 
-              <form onSubmit={handleSignupSubmit} className="space-y-3 sm:space-y-4">
+          ) : (
+            /* ════════════════ SIGNUP ════════════════ */
+            <div>
+              <h3 className="font-display text-lg sm:text-2xl font-bold text-white mb-0.5">Create Account</h3>
+              <p className="text-xs sm:text-sm text-white/45 mb-4">Join Zyvora Finance and start your journey.</p>
+
+              <form onSubmit={handleSignupSubmit} className="space-y-2.5 sm:space-y-3">
+
                 {/* Full Name */}
                 <div>
-                  <label className={labelClass}>Full Name</label>
+                  <label className={label}>Full Name</label>
                   <input
                     type="text"
                     autoComplete="name"
@@ -248,14 +256,14 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                       setValidationErrors((p) => ({ ...p, name: validateName(e.target.value) }));
                     }}
                     placeholder="John Doe"
-                    className={inputClass(validationErrors.name)}
+                    className={input(validationErrors.name)}
                   />
-                  {validationErrors.name && <p className="text-xs text-red-400 mt-1">{validationErrors.name}</p>}
+                  {errText(validationErrors.name)}
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className={labelClass}>Email Address</label>
+                  <label className={label}>Email Address</label>
                   <input
                     type="email"
                     autoComplete="email"
@@ -266,22 +274,20 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                       setValidationErrors((p) => ({ ...p, email: validateEmail(e.target.value) }));
                     }}
                     placeholder="you@domain.com"
-                    className={inputClass(validationErrors.email)}
+                    className={input(validationErrors.email)}
                   />
-                  {validationErrors.email && <p className="text-xs text-red-400 mt-1">{validationErrors.email}</p>}
+                  {errText(validationErrors.email)}
                 </div>
 
-                {/* Phone + Country */}
+                {/* Phone */}
                 <div>
-                  <label className={labelClass}>Phone Number</label>
-                  <div className="flex gap-2 items-start">
-                    {/* Country Selector — compact on mobile */}
+                  <label className={label}>Phone Number</label>
+                  <div className="flex gap-1.5 items-stretch">
                     <div className="flex-shrink-0">
                       <CountrySelect
                         value={selectedCountry}
                         onChange={(c) => {
                           setSelectedCountry(c);
-                          // Re-validate current phone against the new country
                           setValidationErrors((p) => ({
                             ...p,
                             phone: phone ? validatePhoneNumber(phone, c) : undefined,
@@ -289,7 +295,6 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                         }}
                       />
                     </div>
-                    {/* Number input */}
                     <div className="flex-1 min-w-0">
                       <input
                         type="tel"
@@ -300,18 +305,18 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                           setValidationErrors((p) => ({ ...p, phone: validatePhone(e.target.value, selectedCountry) }));
                         }}
                         placeholder={getCountry(selectedCountry).placeholder}
-                        className={inputClass(validationErrors.phone)}
+                        className={input(validationErrors.phone)}
                       />
                     </div>
                   </div>
-                  {validationErrors.phone && <p className="text-xs text-red-400 mt-1">{validationErrors.phone}</p>}
+                  {errText(validationErrors.phone)}
                 </div>
 
                 {/* Already-exists banner */}
                 {alreadyExists && (
-                  <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 sm:p-4 text-xs sm:text-sm leading-relaxed">
-                    <p className="font-semibold text-amber-300 mb-1">⚠️ Account already exists</p>
-                    <p className="text-amber-200/80 break-all">
+                  <div className="rounded-lg border border-amber-400/30 bg-amber-400/8 p-3 text-xs leading-relaxed">
+                    <p className="font-semibold text-amber-300 mb-0.5">⚠️ Account already exists</p>
+                    <p className="text-amber-200/75 break-all mb-1.5">
                       <span className="font-mono text-amber-300">{email}</span> is already registered.
                     </p>
                     <button
@@ -322,7 +327,7 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                         setValidationErrors({});
                         setView("login");
                       }}
-                      className="mt-2 inline-flex items-center gap-1 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/30 px-3 py-1.5 text-xs font-bold text-amber-300 transition"
+                      className="inline-flex items-center gap-1 rounded-md bg-amber-400/18 hover:bg-amber-400/28 border border-amber-400/28 px-2.5 py-1 text-[10px] font-bold text-amber-300 transition"
                     >
                       → Sign In instead
                     </button>
@@ -330,12 +335,12 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 )}
 
                 {error && (
-                  <div className="rounded-xl border border-red-400/20 bg-red-400/10 px-3 py-2.5 text-xs sm:text-sm text-red-300 leading-relaxed">
+                  <div className="rounded-lg border border-red-400/20 bg-red-400/8 px-3 py-2 text-xs text-red-300 leading-relaxed">
                     {error}
                   </div>
                 )}
                 {success && (
-                  <div className="rounded-xl border border-[#14F195]/20 bg-[#14F195]/10 px-3 py-2.5 text-xs sm:text-sm text-[#14F195] leading-relaxed">
+                  <div className="rounded-lg border border-[#14F195]/20 bg-[#14F195]/8 px-3 py-2 text-xs text-[#14F195] leading-relaxed">
                     {success}
                   </div>
                 )}
@@ -343,12 +348,12 @@ export const AuthModals: React.FC<AuthModalsProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="shine-btn w-full rounded-full bg-gradient-brand px-6 py-3 sm:py-3.5 text-sm font-semibold text-[#03040A] shadow-[0_0_20px_rgba(0,198,255,0.3)] disabled:opacity-50 transition"
+                  className="shine-btn w-full rounded-full bg-gradient-brand px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold text-[#03040A] shadow-[0_0_16px_rgba(0,198,255,0.28)] disabled:opacity-50 transition mt-1"
                 >
-                  {loading ? "Creating account..." : "Create Account →"}
+                  {loading ? "Creating…" : "Create Account →"}
                 </button>
 
-                <p className="text-center text-xs sm:text-sm text-white/40">
+                <p className="text-center text-[11px] sm:text-xs text-white/35 pt-0.5">
                   Already have an account?{" "}
                   <button
                     type="button"
