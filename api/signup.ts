@@ -3,10 +3,15 @@ import { submitToCRM } from "./lib/crm.js";
 import { getUsers, saveUsers, User } from "./lib/blobDb.js";
 
 async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Record<string, any>> {
-  if (req.body) {
-    return typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  try {
+    if (req.body !== undefined && req.body !== null) {
+      return typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    }
+  } catch (e) {
+    console.warn("[API Signup] Pre-parsed body resolution failed, falling back:", e);
   }
-  return new Promise((resolve, reject) => {
+
+  return new Promise((resolve) => {
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
@@ -15,7 +20,7 @@ async function parseJsonBody(req: IncomingMessage & { body?: any }): Promise<Rec
       try {
         resolve(body ? JSON.parse(body) : {});
       } catch (e) {
-        reject(e);
+        resolve({});
       }
     });
   });
