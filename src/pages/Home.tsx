@@ -107,7 +107,7 @@ function Nav({ onLaunchApp, isLoggedIn }: NavProps) {
           onClick={onLaunchApp}
           className="shine-btn rounded-full bg-gradient-brand px-5 py-2 text-sm font-semibold text-[#03040A] cursor-pointer"
         >
-          {isLoggedIn ? "Open App" : "Launch App"}
+          {isLoggedIn ? "Open Platform" : "Launch Platform"}
         </button>
       </div>
     </header>
