@@ -177,17 +177,25 @@ function Hero({ onLaunchApp, onLaunchPortfolio, isLoggedIn }: HeroProps) {
     }
   }, []);
 
-  const renderLetters = (text: string) =>
-    text.split("").map((ch, i) => (
-      <span
-        key={i}
-        data-letter
-        className="inline-block will-change-transform py-2 -my-2"
-        style={{ whiteSpace: "pre" }}
-      >
-        {ch === " " ? "\u00A0" : ch}
-      </span>
-    ));
+  const renderLetters = (text: string) => {
+    const spaceIndex = text.indexOf(" ");
+    return text.split("").map((ch, i) => {
+      const isFirstWord = spaceIndex !== -1 && i < spaceIndex;
+      return (
+        <span
+          key={i}
+          data-letter
+          className="inline-block will-change-transform py-2 -my-2"
+          style={{ 
+            whiteSpace: "pre",
+            marginRight: isFirstWord ? "0.08em" : undefined
+          }}
+        >
+          {ch === " " ? "\u00A0" : ch}
+        </span>
+      );
+    });
+  };
 
   return (
     <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden pt-20 flex items-center justify-center">
