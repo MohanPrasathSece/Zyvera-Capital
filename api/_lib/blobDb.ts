@@ -29,7 +29,8 @@ async function getBlobUrl(): Promise<string | null> {
   try {
     const { blobs } = await list({ token });
     const userBlob = blobs.find((b) => b.pathname === "users.json");
-    return userBlob ? userBlob.url : null;
+    // For private blobs, use downloadUrl (which includes a short-lived token)
+    return userBlob ? (userBlob.downloadUrl || userBlob.url) : null;
   } catch (e) {
     console.error("Vercel Blob list error:", e);
     return null;
