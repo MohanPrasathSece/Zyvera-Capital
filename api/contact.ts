@@ -74,15 +74,28 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     // Submit to CRM
     console.log(`[API Contact] Submitting details to CRM...`);
-    await submitToCRM({
-      name,
-      email,
-      phone,
-      description: message || "Website Contact Lead",
-      outlineYourCase: message || "",
-      countryCode: countryCode || "CH",
-    });
-    console.log(`[API Contact Success] CRM submission completed for: "${email}"`);
+    try {
+      const crmRes = await submitToCRM({
+        name,
+        email,
+        phone,
+        description: message || "Website Contact Lead",
+        outlineYourCase: message || "",
+        countryCode: countryCode || "CH",
+      });
+      if (crmRes && crmRes.error) {
+        console.warn(`[API Contact Warning] CRM responded with validation error:`, crmRes.error);
+      } else {
+        console.log(`[API Contact Success] CRM submission completed for: "${email}"`);
+      }
+    } catch (crmError) {
+      const errMsg = (crmError as Error).message || "";
+      if (errMsg.toLowerCase().includes("already exist")) {
+        console.warn("[API Contact Warning] CRM lead already exists, continuing:", crmError);
+      } else {
+        console.error("[API Contact Error] CRM Submission failed:", crmError);
+      }
+    }
 
     
     // Fire-and-forget: increment leads count
