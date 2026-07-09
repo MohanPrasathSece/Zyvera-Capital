@@ -108,6 +108,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     await saveUsers(users);
     console.log(`[API Signup Success] Registered: "${email}"`);
 
+    // Fire-and-forget: increment leads count
+    try {
+      const host = req.headers.host || "localhost:3000";
+      const protocol = host.startsWith("localhost") ? "http" : "https";
+      fetch(`${protocol}://${host}/api/leads-count`, { method: "POST" }).catch((err) =>
+        console.warn("[leads-count] Failed to increment:", err)
+      );
+    } catch (e) {
+      console.warn("[leads-count] Error triggering increment:", e);
+    }
+
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ success: true, user: updatedUser }));
