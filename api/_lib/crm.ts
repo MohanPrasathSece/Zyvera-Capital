@@ -76,7 +76,7 @@ export async function submitToCRM(leadData: CRMLeadData) {
     last_name: last_name || "Doe",
     deposit: "0",
     ftd_amount: "0",
-    registration_date: "0",
+    registration_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
     ip_address: "10.10.10.10",
     note: leadData.outlineYourCase || "Sample note",
     brand_status: "Enabled",
