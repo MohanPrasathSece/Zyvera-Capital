@@ -125,7 +125,9 @@ export const COUNTRIES: Country[] = [
     placeholder: "+41 79 123 45 67",
     regex: /^\+?[1-9]\d{6,14}$/,
     errorMsg: "Please enter a valid phone number with dial code (7 to 15 digits)."
-  }
+  },
+  { code: "IE", name: "Ireland", dialCode: "+353", flag: "🇮🇪", placeholder: "87 123 4567", regex: /^\+353[89]\d{7,8}$/, errorMsg: "Irish number must be 8 or 9 digits." },
+  { code: "GBR", name: "Great Britain", dialCode: "+44", flag: "🇬🇧", placeholder: "7700 900077", regex: /^\+447\d{9}$/, errorMsg: "UK mobile number must be 10 digits." },
 ];
 
 export const getCountry = (code: string): Country => {
